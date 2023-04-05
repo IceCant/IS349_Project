@@ -1,0 +1,68 @@
+﻿@model IEnumerable<IS349_Library.Models.Booktype>
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <a href="/Booktype/Create" class="btn btn primary">New Book Type</a>
+        </div>
+        <div class="col-6">
+            <input class="form-control" id="Search" name="Search" />
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" id="btnSearch">Search</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <table class="table table-bordered" id="BooktypeList">
+            <thead>
+                <tr>
+                    <th>Book type Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.BooktypeName</td>
+                        <td>
+                            <button id="" class="btn btn-danger" onclick=Delete(@item.BooktypeId)>Delete</button>
+                            <a href="/Position/Edit/@item.BooktypeId" class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#btnSearch").click(function () {
+            var search = $("#Search").val();
+            $("#BooktypeList > tbody > tr").remove();
+            if (search) {
+                $.ajax({
+                    method: "GET",
+                    url: "Booktype/Search/?q=" + search,
+                    success: function (data) {
+                        $.each(data, function(i, v){
+                            console.log(v);
+                            var row = "<tr><td>" + v.booktypeName;
+                            row += "</td><td><button onclick=Delete(" + v.booktypeId;
+                            row += ") class='btn btn-danger'>Del</button> <a href='/Booktype/Edit/" + v.booktypeId + "' class='btn btn-primary'>Edit</a>";
+                            row += "</td></tr>";
+                            $("#BooktypeList").append(row);
+                        })
+                    }, error: function(error){
+                    console.log(error);
+                        }
+                    });
+            }else {
+            window.location.reload();
+        }
+        });
+    </script>
+ }

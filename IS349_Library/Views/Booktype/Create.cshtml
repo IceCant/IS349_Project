@@ -1,0 +1,30 @@
+﻿@model IS349_Library.Models.Booktype
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <form method="post" action="Create">
+                @if (ViewData["Exist"] != null)
+                {
+                    <script type="text/javascript">
+                        window.onload = function ()
+                    {
+                    alert("@ViewData["Exist"]");
+                    };
+                    </script>
+                }
+                @Html.AntiForgeryToken()
+                <div class="form-Group">
+                    <label class="Form_label">Book Type Name</label>
+                    <input class="From_control" id="booktype_name" asp-for="BooktypeName" />
+                </div>
+                <input type="submit" value="Create" class="btn btn-submit" />
+            </form>
+        </div>
+        <input type="button" value="Go back!" onclick="history.back()">
+    </div>
+</div>
+
+<script></script>
